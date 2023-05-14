@@ -52,6 +52,10 @@ return require('packer').startup(function(use)
     }
 
     use {
+        'prettier/vim-prettier'
+    }
+
+    use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
         requires = {
