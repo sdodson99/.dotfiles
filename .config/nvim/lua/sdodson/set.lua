@@ -8,6 +8,7 @@ vim.opt.softtabstop = 4;
 vim.opt.shiftwidth = 4;
 vim.opt.expandtab = true;
 vim.opt.smartindent = false;
+vim.opt.wrap = false;
 
 vim.opt.swapfile = false;
 vim.opt.backup = false;
