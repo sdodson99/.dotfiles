@@ -1,0 +1,6 @@
+tap "homebrew/bundle"
+brew "gh"
+brew "neovim"
+brew "pnpm"
+brew "ripgrep"
+brew "tmux"
