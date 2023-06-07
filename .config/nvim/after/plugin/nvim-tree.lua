@@ -8,11 +8,13 @@ vim.opt.termguicolors = true
 vim.keymap.set("n", "<leader>b", vim.cmd.NvimTreeToggle)
 
 require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    width = 30,
-  },
-  renderer = {
-    group_empty = true,
-  }
+    sort_by = "case_sensitive",
+    view = {
+        width = 30,
+        relativenumber = true,
+        number = true
+    },
+    renderer = {
+        group_empty = true,
+    }
 })
