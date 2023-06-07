@@ -10,9 +10,10 @@ vim.keymap.set("n", "<leader>b", vim.cmd.NvimTreeToggle)
 require("nvim-tree").setup({
     sort_by = "case_sensitive",
     view = {
-        width = 30,
+        width = 40,
         relativenumber = true,
-        number = true
+        number = true,
+        side = 'right'
     },
     renderer = {
         group_empty = true,
