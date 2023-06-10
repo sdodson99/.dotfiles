@@ -6,6 +6,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
 vim.keymap.set("n", "<leader>b", vim.cmd.NvimTreeToggle)
+vim.keymap.set("n", "<leader>n", vim.cmd.NvimTreeFindFile)
 
 require("nvim-tree").setup({
     sort_by = "case_sensitive",
@@ -17,5 +18,8 @@ require("nvim-tree").setup({
     },
     renderer = {
         group_empty = true,
+    },
+    git = {
+        ignore = false
     }
 })
