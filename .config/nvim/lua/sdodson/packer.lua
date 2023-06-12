@@ -69,6 +69,16 @@ return require('packer').startup(function(use)
         ft = { "markdown" }
     })
 
+    use {
+        "nvim-neotest/neotest",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "antoinemadec/FixCursorHold.nvim",
+            'haydenmeade/neotest-jest',
+            'marilari88/neotest-vitest'
+        }
+    }
 
     use {
         'VonHeikemen/lsp-zero.nvim',
