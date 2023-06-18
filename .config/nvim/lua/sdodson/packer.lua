@@ -93,6 +93,10 @@ return require('packer').startup(function(use)
     }
 
     use {
+        'mfussenegger/nvim-dap'
+    }
+
+    use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
         requires = {
