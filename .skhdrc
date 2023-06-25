@@ -1,12 +1,21 @@
-alt - r : yabai -m space --rotate 90
-
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
-
 alt - p : yabai -m window --focus prev
 alt - n : yabai -m window --focus next
+alt - r : yabai -m space --rotate 90
+
+fn - 1 : yabai -m window --space 1
+fn - 2 : yabai -m window --space 2
+fn - 3 : yabai -m window --space 3
+fn - 4 : yabai -m window --space 4
+fn - 5 : yabai -m window --space 5
+fn - 6 : yabai -m window --space 6
+fn - 7 : yabai -m window --space 7
+fn - 8 : yabai -m window --space 8
+fn - 9 : yabai -m window --space 9
+fn - 0 : yabai -m window --space 10
 
 shift + ctrl - 1 : yabai -m window --space 1 ; skhd --key "ctrl - 1"
 shift + ctrl - 2 : yabai -m window --space 2 ; skhd --key "ctrl - 2"
@@ -18,7 +27,6 @@ shift + ctrl - 7 : yabai -m window --space 7 ; skhd --key "ctrl - 7"
 shift + ctrl - 8 : yabai -m window --space 8 ; skhd --key "ctrl - 8"
 shift + ctrl - 9 : yabai -m window --space 9 ; skhd --key "ctrl - 9"
 shift + ctrl - 0 : yabai -m window --space 10 ; skhd --key "ctrl - 0"
-
 shift + ctrl - p : yabai -m window --space prev ; skhd --key "ctrl - left"
 shift + ctrl - n : yabai -m window --space next ; skhd --key "ctrl - right"
 
