@@ -15,5 +15,10 @@ vim.opt.incsearch = true;
 vim.opt.termguicolors = true;
 vim.opt.scrolloff = 8;
 vim.opt.updatetime = 50;
+
 vim.g.mapleader = " ";
 
+-- Blamer (Git)
+vim.g.blamer_enabled = 1
+vim.g.blamer_delay = 250
+vim.g.blamer_show_in_insert_modes = 0
