@@ -51,19 +51,7 @@ brew bundle install
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 ```
 
-2. Open Neovim plugin specification.
-
-```zsh
-vim ~/.config/nvim/lua/sdodson/packer.lua
-```
-
-3. Load the plugin specification.
-
-```zsh
-:so
-```
-
-4. Install plugins.
+2. Install plugins.
 
 ```zsh
 :PackerInstall

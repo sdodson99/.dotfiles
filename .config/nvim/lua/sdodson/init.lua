@@ -1,2 +1,3 @@
 require("sdodson.set");
-require("sdodson.remap");
+require("sdodson.keybindings");
+require("sdodson.plugins");

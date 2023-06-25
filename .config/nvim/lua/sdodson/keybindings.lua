@@ -1,0 +1,46 @@
+local map = vim.keymap.set;
+
+-- Movement
+map("n", "<C-u>", "<C-u>zz")
+map("n", "<C-d>", "<C-d>zz")
+
+-- Formatting
+map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
+map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000 }) end, { desc = '[F]ormat [D]efault' })
+
+-- Telescoping
+map('n', '<leader>sf', require 'telescope.builtin'.find_files, { desc = 'Tele[S]ope [F]ind Files' })
+map('n', '<leader>sg', require 'telescope.builtin'.git_files, { desc = 'Tele[S]ope [G]it Files' })
+map('n', '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end,
+    { desc = 'Tele[S]ope Grep S[T]ring' })
+
+-- Harpooning
+map("n", "<leader>ha", require 'harpoon.mark'.add_file, { desc = '[H]arpoon [A]dd' })
+map("n", "<leader>hl", require 'harpoon.ui'.toggle_quick_menu, { desc = '[H]arpoon [L]ist' })
+map("n", "<leader>h1", function() require 'harpoon.ui'.nav_file(1) end, { desc = '[H]arpoon File [1]' })
+map("n", "<leader>h2", function() require 'harpoon.ui'.nav_file(2) end, { desc = '[H]arpoon File [2]' })
+map("n", "<leader>h3", function() require 'harpoon.ui'.nav_file(3) end, { desc = '[H]arpoon File [3]' })
+map("n", "<leader>h4", function() require 'harpoon.ui'.nav_file(4) end, { desc = '[H]arpoon File [4]' })
+map("n", "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end, { desc = '[H]arpoon File [5]' })
+
+-- File Tree
+map("n", "<leader>bt", vim.cmd.NvimTreeToggle, { desc = 'Tree [B]ar [T]oggle' })
+map("n", "<leader>bf", vim.cmd.NvimTreeFindFile, { desc = 'Tree [B]ar [F]ind' })
+
+-- Testing
+map('n', '<leader>tr', function() require("neotest").run.run() end, { desc = '[T]est [R]un' })
+map('n', '<leader>tf', function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = '[T]est [F]ile' })
+map('n', '<leader>ts', function() require("neotest").summary.toggle() end, { desc = '[T]est [S]ummary' })
+
+-- Debugging
+map('n', '<leader>dlc', function() require 'dap.ext.vscode'.load_launchjs(nil, { chrome = { 'typescriptreact' } }) end,
+    { desc = '[D]ebugger [L]oad [C]onfig' })
+map('n', '<leader>dct', function() require "dap".continue() end, { desc = '[D]ebugger [C]on[T]inue' })
+map('n', '<leader>dsv', function() require "dap".step_over() end, { desc = '[D]ebugger [S]tep O[V]er' })
+map('n', '<leader>dsi', function() require "dap".step_into() end, { desc = '[D]ebugger [S]tep [I]nto' })
+map('n', '<leader>dso', function() require "dap".step_out() end, { desc = '[D]ebugger [S]tep [O]ut' })
+map('n', '<leader>dtb', function() require "dap".toggle_breakpoint() end, { desc = '[D]ebugger [T]oggle [B]reakpoint' })
+map('n', '<leader>dsc', function() require "dap.ui.variables".scopes() end, { desc = '[D]ebugger [SC]opes' })
+map('n', '<leader>dho', function() require "dap.ui.variables".hover() end, { desc = '[D]ebugger [HO]ver' })
+map('v', '<leader>dhv', function() require "dap.ui.variables".visual_hover() end,
+    { desc = '[D]ebugger [H]over [V]isual' })
