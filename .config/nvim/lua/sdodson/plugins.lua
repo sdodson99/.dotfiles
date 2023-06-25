@@ -20,6 +20,10 @@ return require('packer').startup(function(use)
     }
 
     use {
+        'nvim-treesitter/nvim-treesitter-context'
+    }
+
+    use {
         'nvim-tree/nvim-tree.lua',
         requires = {
             'nvim-tree/nvim-web-devicons'
