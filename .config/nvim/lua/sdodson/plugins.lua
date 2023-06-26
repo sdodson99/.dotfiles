@@ -78,6 +78,10 @@ return require('packer').startup(function(use)
         'prettier/vim-prettier'
     }
 
+    use {
+        'numToStr/Comment.nvim',
+    }
+
     use({
         "iamcco/markdown-preview.nvim",
         run = "cd app && npm install",
