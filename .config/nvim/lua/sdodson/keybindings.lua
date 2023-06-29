@@ -6,7 +6,8 @@ map("n", "<C-d>", "<C-d>zz")
 
 -- Formatting
 map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
-map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000 }) end, { desc = '[F]ormat [D]efault' })
+map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end,
+    { desc = '[F]ormat [D]efault' })
 
 -- Telescoping
 map('n', '<leader>sf', require 'telescope.builtin'.find_files, { desc = 'Tele[S]ope [F]ind Files' })
@@ -44,3 +45,16 @@ map('n', '<leader>dsc', function() require "dap.ui.variables".scopes() end, { de
 map('n', '<leader>dho', function() require "dap.ui.variables".hover() end, { desc = '[D]ebugger [HO]ver' })
 map('v', '<leader>dhv', function() require "dap.ui.variables".visual_hover() end,
     { desc = '[D]ebugger [H]over [V]isual' })
+
+-- LSP
+map('n', '\\d', vim.diagnostic.open_float, { desc = "List [D]iagnostics" })
+map('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous [D]iagnostic" })
+map('n', ']d', vim.diagnostic.goto_next, { desc = "Next [D]iagnostic" })
+map('n', 'gD', vim.lsp.buf.declaration, { desc = "[G]o to [D]eclaration" })
+map('n', 'gd', vim.lsp.buf.definition, { desc = "[G]o to [D]efinition" })
+map('n', 'K', vim.lsp.buf.hover)
+map('n', 'gi', vim.lsp.buf.implementation, { desc = "[G]o to [I]mplementation" })
+map('n', '<C-k>', vim.lsp.buf.signature_help)
+map('n', '<space>rn', vim.lsp.buf.rename, { desc = "[R]e[N]ame" })
+map({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
+map('n', 'gr', vim.lsp.buf.references, { desc = "[G]o to [R]eferences" })
