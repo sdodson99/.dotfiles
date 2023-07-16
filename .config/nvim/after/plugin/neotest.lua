@@ -3,4 +3,7 @@ require("neotest").setup({
         require("neotest-jest"),
         require("neotest-vitest"),
     },
+    quickfix = {
+        open = false
+    }
 })
