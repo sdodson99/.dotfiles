@@ -4,6 +4,9 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 # enable zsh vim mode
 bindkey -v
 
+# prompt
+PS1="%B%F{#ffd140}%1~ %#%b%f "
+
 # aliases
 alias vim="nvim"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
