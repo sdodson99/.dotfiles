@@ -39,13 +39,9 @@ map('n', '<leader>dsv', function() require "dap".step_over() end, { desc = '[D]e
 map('n', '<leader>dsi', function() require "dap".step_into() end, { desc = '[D]ebugger [S]tep [I]nto' })
 map('n', '<leader>dso', function() require "dap".step_out() end, { desc = '[D]ebugger [S]tep [O]ut' })
 map('n', '<leader>dtb', function() require "dap".toggle_breakpoint() end, { desc = '[D]ebugger [T]oggle [B]reakpoint' })
-map('n', '<leader>dsc', function() require "dap.ui.variables".scopes() end, { desc = '[D]ebugger [SC]opes' })
-map('n', '<leader>dho', function() require "dap.ui.variables".hover() end, { desc = '[D]ebugger [HO]ver' })
-map('v', '<leader>dhv', function() require "dap.ui.variables".visual_hover() end,
-    { desc = '[D]ebugger [H]over [V]isual' })
+map('n', '<leader>dut', function() require "dapui".toggle() end, { desc = '[D]ebugger [U]I [T]oggle' })
 
 -- LSP
-map('n', '\\d', vim.diagnostic.open_float, { desc = "List [D]iagnostics" })
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous [D]iagnostic" })
 map('n', ']d', vim.diagnostic.goto_next, { desc = "Next [D]iagnostic" })
 map('n', 'gD', vim.lsp.buf.declaration, { desc = "[G]o to [D]eclaration" })

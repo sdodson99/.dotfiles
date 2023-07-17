@@ -107,6 +107,10 @@ return require('packer').startup(function(use)
     }
 
     use {
+        'rcarriga/nvim-dap-ui'
+    }
+
+    use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
         requires = {
