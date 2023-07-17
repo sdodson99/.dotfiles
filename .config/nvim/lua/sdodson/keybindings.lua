@@ -34,8 +34,6 @@ map('n', '<leader>tf', function() require("neotest").run.run(vim.fn.expand("%"))
 map('n', '<leader>ts', function() require("neotest").summary.toggle() end, { desc = '[T]est [S]ummary' })
 
 -- Debugging
-map('n', '<leader>dlc', function() require 'dap.ext.vscode'.load_launchjs(nil, { chrome = { 'typescriptreact' } }) end,
-    { desc = '[D]ebugger [L]oad [C]onfig' })
 map('n', '<leader>dct', function() require "dap".continue() end, { desc = '[D]ebugger [C]on[T]inue' })
 map('n', '<leader>dsv', function() require "dap".step_over() end, { desc = '[D]ebugger [S]tep O[V]er' })
 map('n', '<leader>dsi', function() require "dap".step_into() end, { desc = '[D]ebugger [S]tep [I]nto' })
