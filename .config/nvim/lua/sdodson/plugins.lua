@@ -39,10 +39,6 @@ return require('packer').startup(function(use)
     }
 
     use {
-        'APZelos/blamer.nvim'
-    }
-
-    use {
         'pwntester/octo.nvim',
         requires = {
             'nvim-lua/plenary.nvim',
