@@ -7,6 +7,9 @@ bindkey -v
 # prompt
 PS1="%B%F{#ffd140}%1~ %#%b%f "
 
+# use nvim for gh cli
+GH_EDITOR=nvim
+
 # aliases
 alias vim="nvim"
 alias v="nvim"
