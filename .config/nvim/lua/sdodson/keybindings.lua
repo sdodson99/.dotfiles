@@ -41,6 +41,9 @@ map('n', '<leader>dso', function() require "dap".step_out() end, { desc = '[D]eb
 map('n', '<leader>dtb', function() require "dap".toggle_breakpoint() end, { desc = '[D]ebugger [T]oggle [B]reakpoint' })
 map('n', '<leader>dut', function() require "dapui".toggle() end, { desc = '[D]ebugger [U]I [T]oggle' })
 
+-- Rest Client
+map('n', '<leader>reu', '<Plug>RestNvim', { desc = "[R]est [E]xec[u]te" })
+
 -- LSP
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous [D]iagnostic" })
 map('n', ']d', vim.diagnostic.goto_next, { desc = "Next [D]iagnostic" })
