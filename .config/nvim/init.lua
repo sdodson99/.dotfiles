@@ -220,11 +220,7 @@ require("lazy").setup({
     end
   },
   {
-    "tpope/vim-fugitive",
-    cmd = {
-      "G",
-      "Git"
-    }
+    "tpope/vim-fugitive"
   },
   {
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
