@@ -26,6 +26,10 @@ map("n", "<C-d>", "<C-d>zz")
 map("n", "<leader>bt", vim.cmd.NvimTreeToggle, { desc = 'Tree [B]ar [T]oggle' })
 map("n", "<leader>bf", vim.cmd.NvimTreeFindFile, { desc = 'Tree [B]ar [F]ind' })
 
+--- Formatting
+map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
+map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end, { desc = '[F]ormat [D]efault' })
+
 -- Lazy.nvim Setup
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -189,6 +193,23 @@ require("lazy").setup({
     'windwp/nvim-autopairs',
     event = "InsertEnter",
     opts = {}
+  },
+  {
+    'prettier/vim-prettier',
+    build = "yarn install --frozen-lockfile --production",
+    config = function ()
+      vim.g['prettier#autoformat'] = 1;
+      vim.g['prettier#autoformat_require_pragma'] = 0;
+      vim.g['prettier#partial_format'] = 1;
+
+      vim.api.nvim_create_user_command(
+        'AutoFormat',
+        function(opts)
+          vim.g['prettier#autoformat'] = opts.fargs[1];
+        end,
+        { nargs = 1 }
+      )
+    end
   },
   {
     "tpope/vim-fugitive",
