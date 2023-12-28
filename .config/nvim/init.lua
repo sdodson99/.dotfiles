@@ -81,12 +81,15 @@ require("lazy").setup({
 	}),
 	snippet = {
 	  expand = function(args)
-	    require("luasnip").lsp_expand(args.body)
+	    require('luasnip').lsp_expand(args.body)
 	  end,
 	},
 	sources = cmp.config.sources({
-	  { name = "luasnip" },
-	}),
+	  { name = 'nvim_lsp' },
+	  { name = 'luasnip' }
+	}, {
+	    { name = 'buffer' },
+	})
       })
     end
   },
@@ -132,12 +135,18 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    dependencies = {
+      "windwp/nvim-ts-autotag"
+    },
     config = function ()
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
 	ensure_installed = { "lua", "typescript", "javascript", "html" },
 	sync_install = false,
+	autotag = {
+	  enable = true
+	},
 	highlight = {
 	  enable = true
 	},
@@ -152,12 +161,12 @@ require("lazy").setup({
   },
   {
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
       { '<leader>sf', function() require 'telescope.builtin'.find_files() end, { desc = 'Tele[S]ope [F]ind Files' } },
       { '<leader>sg', function() require 'telescope.builtin'.git_files() end, { desc = 'Tele[S]ope [G]it Files' } },
       { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end, { desc = 'Tele[S]ope Grep S[T]ring' } }
-    },
-    dependencies = { 'nvim-lua/plenary.nvim' }
+    }
   },
   {
     'ThePrimeagen/harpoon',
