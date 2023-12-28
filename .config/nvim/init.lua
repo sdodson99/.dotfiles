@@ -170,23 +170,20 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = {
-      "windwp/nvim-ts-autotag"
+      { 'windwp/nvim-ts-autotag' }
     },
     config = function ()
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-	ensure_installed = { "lua", "typescript", "javascript", "html" },
+	ensure_installed = { "typescript", "javascript", "html", "vim", "vimdoc", "lua", "json", "query" },
 	sync_install = false,
-	autotag = {
-	  enable = true,
-          enable_rename = true,
-          enable_close = true,
-          enable_close_on_slash = true,
-          filetypes = { "html" , "typescript", "javascript", "typescriptreact", "javascriptreact" },
-	},
+        autotag = {
+          enable = true
+        },
 	highlight = {
-	  enable = true
+	  enable = true,
+          additional_vim_regex_highlighting = false
 	},
 	indent = {
 	  enable = true
