@@ -130,6 +130,36 @@ require("lazy").setup({
     end
   },
   {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function ()
+      local configs = require("nvim-treesitter.configs")
+
+      configs.setup({
+	ensure_installed = { "lua", "typescript", "javascript", "html" },
+	sync_install = false,
+	highlight = {
+	  enable = true
+	},
+	indent = {
+	  enable = true
+	},
+      })
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+  },
+  {
+    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    keys = {
+      { '<leader>sf', function() require 'telescope.builtin'.find_files() end, { desc = 'Tele[S]ope [F]ind Files' } },
+      { '<leader>sg', function() require 'telescope.builtin'.git_files() end, { desc = 'Tele[S]ope [G]it Files' } },
+      { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end, { desc = 'Tele[S]ope Grep S[T]ring' } }
+    },
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
+  {
     'ThePrimeagen/harpoon',
     keys = {
       { "<leader>ha", function() require 'harpoon.mark'.add_file() end, { desc = '[H]arpoon [A]dd' } },
@@ -148,6 +178,16 @@ require("lazy").setup({
     'windwp/nvim-autopairs',
     event = "InsertEnter",
     opts = {}
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    name = "markdown-preview",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && npm install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
   },
 })
 
