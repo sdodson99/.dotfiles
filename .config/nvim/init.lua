@@ -159,6 +159,14 @@ require("lazy").setup({
     end
   },
   {
+    'bluz71/nvim-linefly',
+    config = function ()
+      vim.g.linefly_options = {
+        with_attached_clients = false,
+      }
+    end
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = {
