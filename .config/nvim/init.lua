@@ -1,12 +1,18 @@
 -- Options
 
 vim.g.mapleader = " ";
+vim.g.loaded_netrw = 1;
+vim.g.loaded_netrwPlugin = 1;
 vim.opt.guicursor = "";
 vim.opt.number = true;
 vim.opt.relativenumber = true;
 vim.opt.wrap = false;
 vim.opt.shiftwidth = 2;
 vim.opt.swapfile = false;
+vim.opt.expandtab = true;
+vim.opt.termguicolors = true;
+vim.opt.signcolumn = "yes";
+vim.opt.scrolloff = 8;
 
 -- Keybinds
 
@@ -15,6 +21,10 @@ local map = vim.keymap.set;
 --- Movement
 map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
+
+--- File Tree
+map("n", "<leader>bt", vim.cmd.NvimTreeToggle, { desc = 'Tree [B]ar [T]oggle' })
+map("n", "<leader>bf", vim.cmd.NvimTreeFindFile, { desc = 'Tree [B]ar [F]ind' })
 
 -- Lazy.nvim Setup
 
@@ -125,11 +135,23 @@ require("lazy").setup({
 
   -- Other Things That I Actually Understand
   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require('catppuccin').setup({
+	transparent_background = true
+      })
+    end
+  },
+  {
     'rose-pine/neovim',
     name = 'rose-pine',
     priority = 1000,
     config = function()
-      vim.cmd('colorscheme rose-pine')
+      require('rose-pine').setup({
+	disable_background = true
+      })
     end
   },
   {
@@ -145,7 +167,11 @@ require("lazy").setup({
 	ensure_installed = { "lua", "typescript", "javascript", "html" },
 	sync_install = false,
 	autotag = {
-	  enable = true
+	  enable = true,
+          enable_rename = true,
+          enable_close = true,
+          enable_close_on_slash = true,
+          filetypes = { "html" , "typescript", "javascript", "typescriptreact", "javascriptreact" },
 	},
 	highlight = {
 	  enable = true
@@ -160,6 +186,18 @@ require("lazy").setup({
     'nvim-treesitter/nvim-treesitter-context',
   },
   {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {}
+  },
+  {
+    "tpope/vim-fugitive",
+    cmd = {
+      "G",
+      "Git"
+    }
+  },
+  {
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
@@ -170,6 +208,9 @@ require("lazy").setup({
   },
   {
     'ThePrimeagen/harpoon',
+    dependencies = {
+      'nvim-lua/plenary.nvim'
+    },
     keys = {
       { "<leader>ha", function() require 'harpoon.mark'.add_file() end, { desc = '[H]arpoon [A]dd' } },
       { "<leader>hl", function() require 'harpoon.ui'.toggle_quick_menu() end, { desc = '[H]arpoon [L]ist' } },
@@ -179,24 +220,52 @@ require("lazy").setup({
       { "<leader>h4", function() require 'harpoon.ui'.nav_file(4) end, { desc = '[H]arpoon File [4]' } },
       { "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end, { desc = '[H]arpoon File [5]' } }
     },
-    dependencies = {
-      'nvim-lua/plenary.nvim'
-    }
   },
   {
-    'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    opts = {}
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {
+	sort_by = "case_sensitive",
+	view = {
+	  width = 40,
+	  relativenumber = true,
+	  number = true,
+	  side = 'right'
+	},
+	renderer = {
+	  group_empty = true,
+	},
+	git = {
+	  ignore = false
+	}
+      }
+    end,
+  },
+  {
+    'numToStr/Comment.nvim',
+    opts = {},
+    lazy = false,
   },
   {
     "iamcco/markdown-preview.nvim",
     name = "markdown-preview",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    build = "cd app && npm install",
+    build = "cd app && yarn install",
     init = function()
       vim.g.mkdp_filetypes = { "markdown" }
     end,
     ft = { "markdown" },
   },
+  {
+    'barrett-ruth/live-server.nvim',
+    build = 'yarn global add live-server',
+    config = true
+  }
 })
 
+vim.cmd('colorscheme catppuccin')
