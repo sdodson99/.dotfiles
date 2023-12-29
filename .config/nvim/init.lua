@@ -200,6 +200,46 @@ require("lazy").setup({
     opts = {}
   },
   {
+    'mfussenegger/nvim-dap',
+    keys = {
+      { '<leader>dct', function() require "dap".continue() end, { desc = '[D]ebugger [C]on[T]inue' } },
+      { '<leader>dsv', function() require "dap".step_over() end, { desc = '[D]ebugger [S]tep O[V]er' } },
+      { '<leader>dsi', function() require "dap".step_into() end, { desc = '[D]ebugger [S]tep [I]nto' } },
+      { '<leader>dso', function() require "dap".step_out() end, { desc = '[D]ebugger [S]tep [O]ut' } },
+      { '<leader>dtb', function() require "dap".toggle_breakpoint() end, { desc = '[D]ebugger [T]oggle [B]reakpoint' } },
+    },
+    config = function ()
+      require('dap').adapters.chrome = {
+        type = "executable",
+        command = "node",
+        args = { vim.fn.stdpath("data") .. "/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js" }
+      }
+    end
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    keys = {
+      { '<leader>dut', function() require "dapui".toggle() end, { desc = '[D]ebugger [U]I [T]oggle' } }
+    },
+    config = function ()
+      require("dapui").setup({
+        expand_lines = false,
+        layouts = {
+          {
+            elements = {
+              {
+                id = "scopes",
+                size = 1
+              }
+            },
+            position = "right",
+            size = 40
+          }
+        }
+      })
+    end
+  },
+  {
     'prettier/vim-prettier',
     build = "yarn install --frozen-lockfile --production",
     config = function ()
@@ -286,6 +326,7 @@ require("lazy").setup({
   {
     'barrett-ruth/live-server.nvim',
     build = 'yarn global add live-server',
+    cmd = { "LiveServerStart" },
     config = true
   }
 })
