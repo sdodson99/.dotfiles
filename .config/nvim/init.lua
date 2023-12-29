@@ -28,6 +28,7 @@ map("n", "<leader>bf", vim.cmd.NvimTreeFindFile, { desc = 'Tree [B]ar [F]ind' })
 
 --- Formatting
 map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
+map("v", "<leader>fs", ":PrettierPartial<CR>", { desc = '[F]ormat Prettier [S]election' })
 map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end, { desc = '[F]ormat [D]efault' })
 
 -- Lazy.nvim Setup
