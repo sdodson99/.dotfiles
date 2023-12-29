@@ -176,7 +176,7 @@ require("lazy").setup({
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-	ensure_installed = { "typescript", "javascript", "html", "vim", "vimdoc", "lua", "json", "query" },
+	ensure_installed = { "typescript", 'tsx', "javascript", "html", "vim", "vimdoc", "lua", "json", "query" },
 	sync_install = false,
         autotag = {
           enable = true
