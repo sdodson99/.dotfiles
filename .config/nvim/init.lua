@@ -9,6 +9,7 @@ vim.opt.relativenumber = true;
 vim.opt.wrap = false;
 vim.opt.shiftwidth = 2;
 vim.opt.swapfile = false;
+vim.opt.backup = false;
 vim.opt.expandtab = true;
 vim.opt.termguicolors = true;
 vim.opt.signcolumn = "yes";
@@ -22,6 +23,12 @@ local map = vim.keymap.set;
 --- Movement
 map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
+
+--- Merge Conflicts!
+map("n", "gh", "<cmd>diffget //2<CR>", { desc = '[G]it Merge Conflicts - Take Left' })
+map("n", "gl", "<cmd>diffget //3<CR>", { desc = '[G]it Merge Conflicts - Take Right' })
+map("n", "gH", "<C-w>h:Gwrite!<CR><C-w>l", { desc = '[G]it Merge Conflicts - Take Left All' })
+map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = '[G]it Merge Conflicts - Take Right All' })
 
 --- File Tree
 map("n", "<leader>bt", vim.cmd.NvimTreeToggle, { desc = 'Tree [B]ar [T]oggle' })
