@@ -214,7 +214,7 @@ require("lazy").setup({
       { '<leader>dsv', function() require "dap".step_over() end, { desc = '[D]ebugger [S]tep O[V]er' } },
       { '<leader>dsi', function() require "dap".step_into() end, { desc = '[D]ebugger [S]tep [I]nto' } },
       { '<leader>dso', function() require "dap".step_out() end, { desc = '[D]ebugger [S]tep [O]ut' } },
-      { '<leader>dtb', function() require "dap".toggle_breakpoint() end, { desc = '[D]ebugger [T]oggle [B]reakpoint' } },
+      { '<leader>dtb', function() require('persistent-breakpoints.api').toggle_breakpoint() end, { desc = '[D]ebugger [T]oggle [B]reakpoint' } },
     },
     config = function ()
       require('dap').adapters.chrome = {
@@ -236,15 +236,27 @@ require("lazy").setup({
           {
             elements = {
               {
+                id = "breakpoints",
+                size = 0.25
+              },
+              {
                 id = "scopes",
-                size = 1
-              }
+                size = 0.75
+              },
             },
             position = "right",
             size = 40
           }
         }
       })
+    end
+  },
+  {
+    'Weissle/persistent-breakpoints.nvim',
+    config = function ()
+      require('persistent-breakpoints').setup{
+        load_breakpoints_event = { "BufReadPost" }
+      }
     end
   },
   {
