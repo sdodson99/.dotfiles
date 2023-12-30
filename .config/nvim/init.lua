@@ -13,6 +13,7 @@ vim.opt.expandtab = true;
 vim.opt.termguicolors = true;
 vim.opt.signcolumn = "yes";
 vim.opt.scrolloff = 8;
+vim.opt.undofile = true;
 
 -- Keybinds
 
@@ -30,6 +31,9 @@ map("n", "<leader>bf", vim.cmd.NvimTreeFindFile, { desc = 'Tree [B]ar [F]ind' })
 map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
 map("v", "<leader>fs", ":PrettierPartial<CR>", { desc = '[F]ormat Prettier [S]election' })
 map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end, { desc = '[F]ormat [D]efault' })
+
+--- Undotree
+map("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = '[U]ndotree [T]oggle' })
 
 -- Lazy.nvim Setup
 
@@ -199,6 +203,9 @@ require("lazy").setup({
     'windwp/nvim-autopairs',
     event = "InsertEnter",
     opts = {}
+  },
+  {
+    'mbbill/undotree'
   },
   {
     'mfussenegger/nvim-dap',
