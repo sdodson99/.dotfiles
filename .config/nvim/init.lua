@@ -42,6 +42,10 @@ map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async 
 --- Undotree
 map("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = '[U]ndotree [T]oggle' })
 
+--- LSP
+map('n', '<space>rn', vim.lsp.buf.rename, { desc = "[R]e[N]ame" })
+map({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
+
 -- Lazy.nvim Setup
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
