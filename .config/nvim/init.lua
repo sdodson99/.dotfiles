@@ -219,6 +219,27 @@ require("lazy").setup({
     'mbbill/undotree'
   },
   {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "marilari88/neotest-vitest"
+    },
+    keys = {
+      { '<leader>tr', function() require("neotest").run.run() end, { desc = '[T]est [R]un' } },
+      { '<leader>tf', function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = '[T]est [F]ile' } },
+      { '<leader>ts', function() require("neotest").summary.toggle() end, { desc = '[T]est [S]ummary' } }
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-vitest")
+        }
+      })
+    end,
+  },
+  {
     'mfussenegger/nvim-dap',
     keys = {
       { '<leader>dct', function() require "dap".continue() end, { desc = '[D]ebugger [C]on[T]inue' } },
