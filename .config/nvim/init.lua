@@ -224,6 +224,7 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
+      'nvim-neotest/neotest-jest',
       "marilari88/neotest-vitest"
     },
     keys = {
@@ -234,7 +235,8 @@ require("lazy").setup({
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-vitest")
+          require("neotest-vitest"),
+          require('neotest-jest')
         }
       })
     end,
