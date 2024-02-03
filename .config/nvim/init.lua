@@ -319,8 +319,22 @@ require("lazy").setup({
     keys = {
       { '<leader>sf', function() require 'telescope.builtin'.find_files() end, { desc = 'Tele[S]ope [F]ind Files' } },
       { '<leader>sg', function() require 'telescope.builtin'.git_files() end, { desc = 'Tele[S]ope [G]it Files' } },
-      { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end, { desc = 'Tele[S]ope Grep S[T]ring' } }
-    }
+      { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end, { desc = 'Tele[S]ope Grep S[T]ring' } },
+      { "<leader>sp", function() vim.cmd.Telescope('workspaces') end, { desc = '[S]earch [P]rojects' } },
+    },
+    config = function ()
+      local telescope = require('telescope')
+
+      telescope.load_extension("workspaces")
+
+      telescope.setup({
+        extensions = {
+          workspaces = {
+            keep_insert = true,
+          }
+        }
+      })
+    end
   },
   {
     'ThePrimeagen/harpoon',
@@ -362,6 +376,12 @@ require("lazy").setup({
 	}
       }
     end,
+  },
+  {
+    "natecraddock/workspaces.nvim",
+    config = function ()
+      require("workspaces").setup()
+    end
   },
   {
     'numToStr/Comment.nvim',
