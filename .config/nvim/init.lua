@@ -28,10 +28,6 @@ map("n", "gl", "<cmd>diffget //3<CR>", { desc = '[G]it Merge Conflicts - Take Ri
 map("n", "gH", "<C-w>h:Gwrite!<CR><C-w>l", { desc = '[G]it Merge Conflicts - Take Left All' })
 map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = '[G]it Merge Conflicts - Take Right All' })
 
---- File Browser
-map("n", "<leader>bt", vim.cmd.NvimTreeToggle, { desc = 'Tree [B]ar [T]oggle' })
-map("n", "<leader>bf", vim.cmd.NvimTreeFindFile, { desc = 'Tree [B]ar [F]ind' })
-
 --- Formatting
 map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
 map("v", "<leader>fs", ":PrettierPartial<CR>", { desc = '[F]ormat Prettier [S]election' })
@@ -319,20 +315,30 @@ require("lazy").setup({
       { '<leader>sg', function() require 'telescope.builtin'.git_files() end, { desc = 'Tele[S]ope [G]it Files' } },
       { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end, { desc = 'Tele[S]ope Grep S[T]ring' } },
       { "<leader>sp", function() vim.cmd.Telescope('workspaces') end, { desc = '[S]earch [P]rojects' } },
+      { "<leader>bf", function() vim.cmd.Telescope('file_browser') end, { desc = '[B]rowse [F]olders' } },
+      { "<leader>bc", ":Telescope file_browser path=%:p:h select_buffer=true<CR>", { desc = '[B]rowse [C]urrent Folder' } },
     },
     config = function ()
       local telescope = require('telescope')
 
       telescope.load_extension("workspaces")
+      telescope.load_extension("file_browser")
 
       telescope.setup({
         extensions = {
           workspaces = {
             keep_insert = true,
+          },
+          file_browser = {
+            hijack_netrw = true,
           }
         }
       })
     end
+  },
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
   },
   {
     'ThePrimeagen/harpoon',

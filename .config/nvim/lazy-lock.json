@@ -28,6 +28,7 @@
   "persistent-breakpoints.nvim": { "branch": "main", "commit": "db2ad5974b0435cb806cd287e7525219d6ac4bd3" },
   "plenary.nvim": { "branch": "master", "commit": "55d9fe89e33efd26f532ef20223e5f9430c8b0c0" },
   "rose-pine": { "branch": "main", "commit": "b00800948e35df1df02c80cdea07988c4325d3ac" },
+  "telescope-file-browser.nvim": { "branch": "master", "commit": "26b5e86cb8509a3ca2ebaa652630396c8e3396b2" },
   "telescope.nvim": { "branch": "master", "commit": "d90956833d7c27e73c621a61f20b29fdb7122709" },
   "undotree": { "branch": "master", "commit": "36ff7abb6b60980338344982ad4cdf03f7961ecd" },
   "vim-fugitive": { "branch": "master", "commit": "59659093581aad2afacedc81f009ed6a4bfad275" },
