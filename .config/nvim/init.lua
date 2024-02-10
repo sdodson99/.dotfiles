@@ -1,8 +1,6 @@
 -- Options
 
 vim.g.mapleader = " ";
-vim.g.loaded_netrw = 1;
-vim.g.loaded_netrwPlugin = 1;
 vim.opt.guicursor = "";
 vim.opt.number = true;
 vim.opt.relativenumber = true;
@@ -30,7 +28,7 @@ map("n", "gl", "<cmd>diffget //3<CR>", { desc = '[G]it Merge Conflicts - Take Ri
 map("n", "gH", "<C-w>h:Gwrite!<CR><C-w>l", { desc = '[G]it Merge Conflicts - Take Left All' })
 map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = '[G]it Merge Conflicts - Take Right All' })
 
---- File Tree
+--- File Browser
 map("n", "<leader>bt", vim.cmd.NvimTreeToggle, { desc = 'Tree [B]ar [T]oggle' })
 map("n", "<leader>bf", vim.cmd.NvimTreeFindFile, { desc = 'Tree [B]ar [F]ind' })
 
@@ -350,32 +348,6 @@ require("lazy").setup({
       { "<leader>h4", function() require 'harpoon.ui'.nav_file(4) end, { desc = '[H]arpoon File [4]' } },
       { "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end, { desc = '[H]arpoon File [5]' } }
     },
-  },
-  {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("nvim-tree").setup {
-	sort_by = "case_sensitive",
-        sync_root_with_cwd = true,
-	view = {
-	  width = 40,
-	  relativenumber = true,
-	  number = true,
-	  side = 'right'
-	},
-	renderer = {
-	  group_empty = true,
-	},
-	git = {
-	  ignore = false
-	}
-      }
-    end,
   },
   {
     "natecraddock/workspaces.nvim",
