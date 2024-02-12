@@ -341,6 +341,9 @@ require("lazy").setup({
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
   },
   {
+    "nvim-tree/nvim-web-devicons",
+  },
+  {
     'ThePrimeagen/harpoon',
     dependencies = {
       'nvim-lua/plenary.nvim'
