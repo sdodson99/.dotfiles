@@ -305,7 +305,29 @@ require("lazy").setup({
     end
   },
   {
-    "tpope/vim-fugitive"
+    "tpope/vim-fugitive",
+    cmd = {
+      'G',
+      'Git'
+    },
+  },
+  {
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    cmd = {
+      'Octo'
+    },
+    config = function ()
+      require("octo").setup({
+        suppress_missing_scope = {
+          projects_v2 = true,
+        }
+      })
+    end
   },
   {
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
