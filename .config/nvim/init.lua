@@ -31,7 +31,8 @@ map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = '[G]it Merge Conflicts - Tak
 --- Formatting
 map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
 map("v", "<leader>fs", ":PrettierPartial<CR>", { desc = '[F]ormat Prettier [S]election' })
-map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end, { desc = '[F]ormat [D]efault' })
+map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end,
+  { desc = '[F]ormat [D]efault' })
 
 --- Undotree
 map("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = '[U]ndotree [T]oggle' })
@@ -95,35 +96,35 @@ require("lazy").setup({
       local cmp_action = lsp_zero.cmp_action()
 
       cmp.setup({
-	formatting = lsp_zero.cmp_format(),
-	mapping = cmp.mapping.preset.insert({
-	  ['<C-Space>'] = cmp.mapping.complete(),
-	  ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-	  ['<C-d>'] = cmp.mapping.scroll_docs(4),
-	  ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-	  ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-	}),
-	snippet = {
-	  expand = function(args)
-	    require('luasnip').lsp_expand(args.body)
-	  end,
-	},
-	sources = cmp.config.sources({
-	  { name = 'nvim_lsp' },
-	  { name = 'luasnip' }
-	}, {
-	    { name = 'buffer' },
-	})
+        formatting = lsp_zero.cmp_format(),
+        mapping = cmp.mapping.preset.insert({
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-d>'] = cmp.mapping.scroll_docs(4),
+          ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+          ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+        }),
+        snippet = {
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+          end,
+        },
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' }
+        }, {
+          { name = 'buffer' },
+        })
       })
     end
   },
   {
     'neovim/nvim-lspconfig',
-    cmd = {'LspInfo', 'LspInstall', 'LspStart'},
-    event = {'BufReadPre', 'BufNewFile'},
+    cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'williamboman/mason-lspconfig.nvim'},
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'williamboman/mason-lspconfig.nvim' },
     },
     config = function()
       local lsp_zero = require('lsp-zero')
@@ -131,18 +132,18 @@ require("lazy").setup({
       lsp_zero.extend_lspconfig()
 
       lsp_zero.on_attach(function(_, bufnr)
-	lsp_zero.default_keymaps({buffer = bufnr})
+        lsp_zero.default_keymaps({ buffer = bufnr })
       end)
 
       require('mason-lspconfig').setup({
-	ensure_installed = {},
-	handlers = {
-	  lsp_zero.default_setup,
-	  lua_ls = function()
-	    local lua_opts = lsp_zero.nvim_lua_ls()
-	    require('lspconfig').lua_ls.setup(lua_opts)
-	  end,
-	}
+        ensure_installed = {},
+        handlers = {
+          lsp_zero.default_setup,
+          lua_ls = function()
+            local lua_opts = lsp_zero.nvim_lua_ls()
+            require('lspconfig').lua_ls.setup(lua_opts)
+          end,
+        }
       })
     end
   },
@@ -154,7 +155,7 @@ require("lazy").setup({
     priority = 1000,
     config = function()
       require('catppuccin').setup({
-	transparent_background = true
+        transparent_background = true
       })
     end
   },
@@ -164,13 +165,13 @@ require("lazy").setup({
     priority = 1000,
     config = function()
       require('rose-pine').setup({
-	disable_background = true
+        disable_background = true
       })
     end
   },
   {
     'bluz71/nvim-linefly',
-    config = function ()
+    config = function()
       vim.g.linefly_options = {
         with_attached_clients = false,
       }
@@ -182,27 +183,32 @@ require("lazy").setup({
     dependencies = {
       { 'windwp/nvim-ts-autotag' }
     },
-    config = function ()
+    config = function()
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-	ensure_installed = { "typescript", 'tsx', "javascript", "html", "vim", "vimdoc", "lua", "json", "query" },
-	sync_install = false,
+        ensure_installed = { "typescript", 'tsx', "javascript", "html", "vim", "vimdoc", "lua", "json", "query" },
+        sync_install = false,
         autotag = {
           enable = true
         },
-	highlight = {
-	  enable = true,
+        highlight = {
+          enable = true,
           additional_vim_regex_highlighting = false
-	},
-	indent = {
-	  enable = true
-	},
+        },
+        indent = {
+          enable = true
+        },
       })
     end,
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require 'treesitter-context'.setup {
+        max_lines = 3,
+      }
+    end
   },
   {
     'windwp/nvim-autopairs',
@@ -222,9 +228,9 @@ require("lazy").setup({
       "marilari88/neotest-vitest"
     },
     keys = {
-      { '<leader>tr', function() require("neotest").run.run() end, { desc = '[T]est [R]un' } },
+      { '<leader>tr', function() require("neotest").run.run() end,                   { desc = '[T]est [R]un' } },
       { '<leader>tf', function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = '[T]est [F]ile' } },
-      { '<leader>ts', function() require("neotest").summary.toggle() end, { desc = '[T]est [S]ummary' } }
+      { '<leader>ts', function() require("neotest").summary.toggle() end,            { desc = '[T]est [S]ummary' } }
     },
     config = function()
       require("neotest").setup({
@@ -238,13 +244,19 @@ require("lazy").setup({
   {
     'mfussenegger/nvim-dap',
     keys = {
-      { '<leader>dct', function() require "dap".continue() end, { desc = '[D]ebugger [C]on[T]inue' } },
-      { '<leader>dsv', function() require "dap".step_over() end, { desc = '[D]ebugger [S]tep O[V]er' } },
-      { '<leader>dsi', function() require "dap".step_into() end, { desc = '[D]ebugger [S]tep [I]nto' } },
-      { '<leader>dso', function() require "dap".step_out() end, { desc = '[D]ebugger [S]tep [O]ut' } },
-      { '<leader>dtb', function() require('persistent-breakpoints.api').toggle_breakpoint() end, { desc = '[D]ebugger [T]oggle [B]reakpoint' } },
+      { '<leader>dct', function() require "dap".continue() end,                                  { desc =
+      '[D]ebugger [C]on[T]inue' } },
+      { '<leader>dsv', function() require "dap".step_over() end,                                 { desc =
+      '[D]ebugger [S]tep O[V]er' } },
+      { '<leader>dsi', function() require "dap".step_into() end,                                 { desc =
+      '[D]ebugger [S]tep [I]nto' } },
+      { '<leader>dso', function() require "dap".step_out() end,                                  { desc =
+      '[D]ebugger [S]tep [O]ut' } },
+      { '<leader>dtb', function() require('persistent-breakpoints.api').toggle_breakpoint() end,
+                                                                                                   { desc =
+        '[D]ebugger [T]oggle [B]reakpoint' } },
     },
-    config = function ()
+    config = function()
       require('dap').adapters.chrome = {
         type = "executable",
         command = "node",
@@ -257,7 +269,7 @@ require("lazy").setup({
     keys = {
       { '<leader>dut', function() require "dapui".toggle() end, { desc = '[D]ebugger [U]I [T]oggle' } }
     },
-    config = function ()
+    config = function()
       require("dapui").setup({
         expand_lines = false,
         layouts = {
@@ -281,8 +293,8 @@ require("lazy").setup({
   },
   {
     'Weissle/persistent-breakpoints.nvim',
-    config = function ()
-      require('persistent-breakpoints').setup{
+    config = function()
+      require('persistent-breakpoints').setup {
         load_breakpoints_event = { "BufReadPost" }
       }
     end
@@ -290,7 +302,7 @@ require("lazy").setup({
   {
     'prettier/vim-prettier',
     build = "yarn install --frozen-lockfile --production",
-    config = function ()
+    config = function()
       vim.g['prettier#autoformat'] = 1;
       vim.g['prettier#autoformat_require_pragma'] = 0;
       vim.g['prettier#partial_format'] = 1;
@@ -308,7 +320,8 @@ require("lazy").setup({
     "tpope/vim-fugitive",
     cmd = {
       'G',
-      'Git'
+      'Git',
+      'Gread'
     },
   },
   {
@@ -321,7 +334,7 @@ require("lazy").setup({
     cmd = {
       'Octo'
     },
-    config = function ()
+    config = function()
       require("octo").setup({
         suppress_missing_scope = {
           projects_v2 = true,
@@ -330,17 +343,25 @@ require("lazy").setup({
     end
   },
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
-      { '<leader>sf', function() require 'telescope.builtin'.find_files() end, { desc = 'Tele[S]ope [F]ind Files' } },
-      { '<leader>sg', function() require 'telescope.builtin'.git_files() end, { desc = 'Tele[S]ope [G]it Files' } },
-      { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end, { desc = 'Tele[S]ope Grep S[T]ring' } },
-      { "<leader>sp", function() vim.cmd.Telescope('workspaces') end, { desc = '[S]earch [P]rojects' } },
-      { "<leader>bf", function() vim.cmd.Telescope('file_browser') end, { desc = '[B]rowse [F]olders' } },
-      { "<leader>bc", ":Telescope file_browser path=%:p:h select_buffer=true<CR>", { desc = '[B]rowse [C]urrent Folder' } },
+      { '<leader>sf', function() require 'telescope.builtin'.find_files() end,                                      { desc =
+      'Tele[S]ope [F]ind Files' } },
+      { '<leader>sg', function() require 'telescope.builtin'.git_files() end,                                       { desc =
+      'Tele[S]ope [G]it Files' } },
+      { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end,
+                                                                                                                      { desc =
+        'Tele[S]ope Grep S[T]ring' } },
+      { "<leader>sp", function() vim.cmd.Telescope('workspaces') end,                                               { desc =
+      '[S]earch [P]rojects' } },
+      { "<leader>bf", function() vim.cmd.Telescope('file_browser') end,                                             { desc =
+      '[B]rowse [F]olders' } },
+      { "<leader>bc", ":Telescope file_browser path=%:p:h select_buffer=true<CR>",                                  { desc =
+      '[B]rowse [C]urrent Folder' } },
     },
-    config = function ()
+    config = function()
       local telescope = require('telescope')
 
       telescope.load_extension("workspaces")
@@ -371,18 +392,18 @@ require("lazy").setup({
       'nvim-lua/plenary.nvim'
     },
     keys = {
-      { "<leader>ha", function() require 'harpoon.mark'.add_file() end, { desc = '[H]arpoon [A]dd' } },
+      { "<leader>ha", function() require 'harpoon.mark'.add_file() end,        { desc = '[H]arpoon [A]dd' } },
       { "<leader>hl", function() require 'harpoon.ui'.toggle_quick_menu() end, { desc = '[H]arpoon [L]ist' } },
-      { "<leader>h1", function() require 'harpoon.ui'.nav_file(1) end, { desc = '[H]arpoon File [1]' } },
-      { "<leader>h2", function() require 'harpoon.ui'.nav_file(2) end, { desc = '[H]arpoon File [2]' } },
-      { "<leader>h3", function() require 'harpoon.ui'.nav_file(3) end, { desc = '[H]arpoon File [3]' } },
-      { "<leader>h4", function() require 'harpoon.ui'.nav_file(4) end, { desc = '[H]arpoon File [4]' } },
-      { "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end, { desc = '[H]arpoon File [5]' } }
+      { "<leader>h1", function() require 'harpoon.ui'.nav_file(1) end,         { desc = '[H]arpoon File [1]' } },
+      { "<leader>h2", function() require 'harpoon.ui'.nav_file(2) end,         { desc = '[H]arpoon File [2]' } },
+      { "<leader>h3", function() require 'harpoon.ui'.nav_file(3) end,         { desc = '[H]arpoon File [3]' } },
+      { "<leader>h4", function() require 'harpoon.ui'.nav_file(4) end,         { desc = '[H]arpoon File [4]' } },
+      { "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end,         { desc = '[H]arpoon File [5]' } }
     },
   },
   {
     "natecraddock/workspaces.nvim",
-    config = function ()
+    config = function()
       require("workspaces").setup()
     end
   },
