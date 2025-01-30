@@ -189,9 +189,6 @@ require("lazy").setup({
       configs.setup({
         ensure_installed = { "typescript", 'tsx', "javascript", "html", "vim", "vimdoc", "lua", "json", "query" },
         sync_install = false,
-        autotag = {
-          enable = true
-        },
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false
@@ -214,6 +211,18 @@ require("lazy").setup({
     'windwp/nvim-autopairs',
     event = "InsertEnter",
     opts = {}
+  },
+  {
+    'nvim-ts-autotag',
+    config = function ()
+      require('nvim-ts-autotag').setup({
+        opts = {
+          enable_close = true,
+          enable_rename = true,
+          enable_close_on_slash = true
+        }
+      })
+    end
   },
   {
     'mbbill/undotree'
