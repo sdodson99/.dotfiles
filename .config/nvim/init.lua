@@ -378,6 +378,11 @@ require("lazy").setup({
           desc =
           'Tele[S]ope Grep S[T]ring'
         } },
+      { '<leader>sk', function() require 'telescope.builtin'.keymaps() end,
+        {
+          desc =
+          'Telescope - Keymaps'
+        } },
       { "<leader>sp", function() vim.cmd.Telescope('workspaces') end, {
         desc =
         '[S]earch [P]rojects'
