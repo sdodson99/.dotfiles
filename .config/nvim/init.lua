@@ -30,7 +30,6 @@ map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = '[G]it Merge Conflicts - Tak
 
 --- Formatting
 map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
-map("v", "<leader>fs", ":PrettierPartial<CR>", { desc = '[F]ormat Prettier [S]election' })
 map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end,
   { desc = '[F]ormat [D]efault' })
 
@@ -214,7 +213,7 @@ require("lazy").setup({
   },
   {
     'nvim-ts-autotag',
-    config = function ()
+    config = function()
       require('nvim-ts-autotag').setup({
         opts = {
           enable_close = true,
@@ -253,17 +252,27 @@ require("lazy").setup({
   {
     'mfussenegger/nvim-dap',
     keys = {
-      { '<leader>dct', function() require "dap".continue() end,                                  { desc =
-      '[D]ebugger [C]on[T]inue' } },
-      { '<leader>dsv', function() require "dap".step_over() end,                                 { desc =
-      '[D]ebugger [S]tep O[V]er' } },
-      { '<leader>dsi', function() require "dap".step_into() end,                                 { desc =
-      '[D]ebugger [S]tep [I]nto' } },
-      { '<leader>dso', function() require "dap".step_out() end,                                  { desc =
-      '[D]ebugger [S]tep [O]ut' } },
+      { '<leader>dct', function() require "dap".continue() end, {
+        desc =
+        '[D]ebugger [C]on[T]inue'
+      } },
+      { '<leader>dsv', function() require "dap".step_over() end, {
+        desc =
+        '[D]ebugger [S]tep O[V]er'
+      } },
+      { '<leader>dsi', function() require "dap".step_into() end, {
+        desc =
+        '[D]ebugger [S]tep [I]nto'
+      } },
+      { '<leader>dso', function() require "dap".step_out() end, {
+        desc =
+        '[D]ebugger [S]tep [O]ut'
+      } },
       { '<leader>dtb', function() require('persistent-breakpoints.api').toggle_breakpoint() end,
-                                                                                                   { desc =
-        '[D]ebugger [T]oggle [B]reakpoint' } },
+        {
+          desc =
+          '[D]ebugger [T]oggle [B]reakpoint'
+        } },
     },
     config = function()
       require('dap').adapters.chrome = {
@@ -356,19 +365,31 @@ require("lazy").setup({
     tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
-      { '<leader>sf', function() require 'telescope.builtin'.find_files() end,                                      { desc =
-      'Tele[S]ope [F]ind Files' } },
-      { '<leader>sg', function() require 'telescope.builtin'.git_files() end,                                       { desc =
-      'Tele[S]ope [G]it Files' } },
+      { '<leader>sf', function() require 'telescope.builtin'.find_files() end, {
+        desc =
+        'Tele[S]ope [F]ind Files'
+      } },
+      { '<leader>sg', function() require 'telescope.builtin'.git_files() end, {
+        desc =
+        'Tele[S]ope [G]it Files'
+      } },
       { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end,
-                                                                                                                      { desc =
-        'Tele[S]ope Grep S[T]ring' } },
-      { "<leader>sp", function() vim.cmd.Telescope('workspaces') end,                                               { desc =
-      '[S]earch [P]rojects' } },
-      { "<leader>bf", function() vim.cmd.Telescope('file_browser') end,                                             { desc =
-      '[B]rowse [F]olders' } },
-      { "<leader>bc", ":Telescope file_browser path=%:p:h select_buffer=true<CR>",                                  { desc =
-      '[B]rowse [C]urrent Folder' } },
+        {
+          desc =
+          'Tele[S]ope Grep S[T]ring'
+        } },
+      { "<leader>sp", function() vim.cmd.Telescope('workspaces') end, {
+        desc =
+        '[S]earch [P]rojects'
+      } },
+      { "<leader>bf", function() vim.cmd.Telescope('file_browser') end, {
+        desc =
+        '[B]rowse [F]olders'
+      } },
+      { "<leader>bc", ":Telescope file_browser path=%:p:h select_buffer=true<CR>", {
+        desc =
+        '[B]rowse [C]urrent Folder'
+      } },
     },
     config = function()
       local telescope = require('telescope')
@@ -436,6 +457,19 @@ require("lazy").setup({
     build = 'yarn global add live-server',
     cmd = { "LiveServerStart" },
     config = true
+  },
+  {
+    "frankroeder/parrot.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("parrot").setup {
+        providers = {
+          gemini = {
+            api_key = os.getenv "GEMINI_API_KEY"
+          }
+        },
+      }
+    end,
   }
 })
 
