@@ -1,0 +1,7 @@
+{
+    "workspace.library": [
+        "/opt/homebrew/Cellar/neovim/0.10.4/share/nvim/runtime/lua",
+        "/Users/sdodson/.config/nvim/lua",
+        "/Users/sdodson/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/10d2d406"
+    ]
+}
