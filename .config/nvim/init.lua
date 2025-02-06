@@ -23,22 +23,22 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
 
 --- Merge Conflicts!
-map("n", "gh", "<cmd>diffget //2<CR>", { desc = '[G]it Merge Conflicts - Take Left' })
-map("n", "gl", "<cmd>diffget //3<CR>", { desc = '[G]it Merge Conflicts - Take Right' })
-map("n", "gH", "<C-w>h:Gwrite!<CR><C-w>l", { desc = '[G]it Merge Conflicts - Take Left All' })
-map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = '[G]it Merge Conflicts - Take Right All' })
+map("n", "gh", "<cmd>diffget //2<CR>", { desc = 'Merge Conflicts - Take Left' })
+map("n", "gl", "<cmd>diffget //3<CR>", { desc = 'Merge Conflicts - Take Right' })
+map("n", "gH", "<C-w>h:Gwrite!<CR><C-w>l", { desc = 'Merge Conflicts - Take Left All' })
+map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = 'Merge Conflicts - Take Right All' })
 
 --- Formatting
-map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = '[F]ormat [P]rettier' })
+map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = 'Format - Run Prettier' })
 map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end,
-  { desc = '[F]ormat [D]efault' })
+  { desc = 'Format - Run Default' })
 
 --- Undotree
-map("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = '[U]ndotree [T]oggle' })
+map("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = 'Undotree - Toggle Open' })
 
 --- LSP
-map('n', '<space>rn', vim.lsp.buf.rename, { desc = "[R]e[N]ame" })
-map({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
+map('n', '<space>rn', vim.lsp.buf.rename, { desc = "LSP - Rename" })
+map({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = "LSP - Code Action" })
 
 -- Lazy.nvim Setup
 
@@ -227,52 +227,38 @@ require("lazy").setup({
     'mbbill/undotree'
   },
   {
-    "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      'nvim-neotest/neotest-jest',
-      "marilari88/neotest-vitest"
-    },
-    keys = {
-      { '<leader>tr', function() require("neotest").run.run() end,                   { desc = '[T]est [R]un' } },
-      { '<leader>tf', function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = '[T]est [F]ile' } },
-      { '<leader>ts', function() require("neotest").summary.toggle() end,            { desc = '[T]est [S]ummary' } }
-    },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-vitest"),
-          require('neotest-jest')
-        }
-      })
-    end,
-  },
-  {
     'mfussenegger/nvim-dap',
     keys = {
-      { '<leader>dct', function() require "dap".continue() end, {
+      {
+        '<leader>dct',
+        function() require "dap".continue() end,
         desc =
-        '[D]ebugger [C]on[T]inue'
-      } },
-      { '<leader>dsv', function() require "dap".step_over() end, {
+        'DAP - Debugger Continue'
+      },
+      {
+        '<leader>dsv',
+        function() require "dap".step_over() end,
         desc =
-        '[D]ebugger [S]tep O[V]er'
-      } },
-      { '<leader>dsi', function() require "dap".step_into() end, {
+        'DAP - Debugger Step Over'
+      },
+      {
+        '<leader>dsi',
+        function() require "dap".step_into() end,
         desc =
-        '[D]ebugger [S]tep [I]nto'
-      } },
-      { '<leader>dso', function() require "dap".step_out() end, {
+        'DAP - Debugger Step Into'
+      },
+      {
+        '<leader>dso',
+        function() require "dap".step_out() end,
         desc =
-        '[D]ebugger [S]tep [O]ut'
-      } },
-      { '<leader>dtb', function() require('persistent-breakpoints.api').toggle_breakpoint() end,
-        {
-          desc =
-          '[D]ebugger [T]oggle [B]reakpoint'
-        } },
+        'DAP - Debugger Step Out'
+      },
+      {
+        '<leader>dtb',
+        function() require('persistent-breakpoints.api').toggle_breakpoint() end,
+        desc =
+        'DAP - Debugger Toggle Breakpoint'
+      },
     },
     config = function()
       require('dap').adapters.chrome = {
@@ -285,7 +271,7 @@ require("lazy").setup({
   {
     "rcarriga/nvim-dap-ui",
     keys = {
-      { '<leader>dut', function() require "dapui".toggle() end, { desc = '[D]ebugger [U]I [T]oggle' } }
+      { '<leader>dut', function() require "dapui".toggle() end, desc = 'DAP - Toggle UI' }
     },
     config = function()
       require("dapui").setup({
@@ -365,36 +351,48 @@ require("lazy").setup({
     tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
-      { '<leader>sf', function() require 'telescope.builtin'.find_files() end, {
+      {
+        '<leader>sf',
+        function() require 'telescope.builtin'.find_files() end,
         desc =
-        'Tele[S]ope [F]ind Files'
-      } },
-      { '<leader>sg', function() require 'telescope.builtin'.git_files() end, {
+        'Telescope - Search Find Files'
+      },
+      {
+        '<leader>sg',
+        function() require 'telescope.builtin'.git_files() end,
         desc =
-        'Tele[S]ope [G]it Files'
-      } },
-      { '<leader>st', function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end,
-        {
-          desc =
-          'Tele[S]ope Grep S[T]ring'
-        } },
-      { '<leader>sk', function() require 'telescope.builtin'.keymaps() end,
-        {
-          desc =
-          'Telescope - Keymaps'
-        } },
-      { "<leader>sp", function() vim.cmd.Telescope('workspaces') end, {
+        'Telescope - Search Git Files'
+      },
+      {
+        '<leader>st',
+        function() require 'telescope.builtin'.grep_string({ search = vim.fn.input("Grep > ") }) end,
         desc =
-        '[S]earch [P]rojects'
-      } },
-      { "<leader>bf", function() vim.cmd.Telescope('file_browser') end, {
+        'Telescope - Grep String'
+      },
+      {
+        '<leader>sk',
+        function() require 'telescope.builtin'.keymaps() end,
         desc =
-        '[B]rowse [F]olders'
-      } },
-      { "<leader>bc", ":Telescope file_browser path=%:p:h select_buffer=true<CR>", {
+        'Telescope - Search Keymaps'
+      },
+      {
+        "<leader>sp",
+        function() vim.cmd.Telescope('workspaces') end,
         desc =
-        '[B]rowse [C]urrent Folder'
-      } },
+        'Telescope - Search Projects'
+      },
+      {
+        "<leader>bf",
+        function() vim.cmd.Telescope('file_browser') end,
+        desc =
+        'Telescope - Browse Folders'
+      },
+      {
+        "<leader>bc",
+        ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+        desc =
+        'Telescope - Browse Current Folder'
+      },
     },
     config = function()
       local telescope = require('telescope')
@@ -427,13 +425,13 @@ require("lazy").setup({
       'nvim-lua/plenary.nvim'
     },
     keys = {
-      { "<leader>ha", function() require 'harpoon.mark'.add_file() end,        { desc = '[H]arpoon [A]dd' } },
-      { "<leader>hl", function() require 'harpoon.ui'.toggle_quick_menu() end, { desc = '[H]arpoon [L]ist' } },
-      { "<leader>h1", function() require 'harpoon.ui'.nav_file(1) end,         { desc = '[H]arpoon File [1]' } },
-      { "<leader>h2", function() require 'harpoon.ui'.nav_file(2) end,         { desc = '[H]arpoon File [2]' } },
-      { "<leader>h3", function() require 'harpoon.ui'.nav_file(3) end,         { desc = '[H]arpoon File [3]' } },
-      { "<leader>h4", function() require 'harpoon.ui'.nav_file(4) end,         { desc = '[H]arpoon File [4]' } },
-      { "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end,         { desc = '[H]arpoon File [5]' } }
+      { "<leader>ha", function() require 'harpoon.mark'.add_file() end,        desc = 'Harpoon - Add File' },
+      { "<leader>hl", function() require 'harpoon.ui'.toggle_quick_menu() end, desc = 'Harpoon - List Files' },
+      { "<leader>h1", function() require 'harpoon.ui'.nav_file(1) end,         desc = 'Harpoon - Open File 1' },
+      { "<leader>h2", function() require 'harpoon.ui'.nav_file(2) end,         desc = 'Harpoon - Open File 2' },
+      { "<leader>h3", function() require 'harpoon.ui'.nav_file(3) end,         desc = 'Harpoon - Open File 3' },
+      { "<leader>h4", function() require 'harpoon.ui'.nav_file(4) end,         desc = 'Harpoon - Open File 4' },
+      { "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end,         desc = 'Harpoon - Open File 5' }
     },
   },
   {
