@@ -376,6 +376,12 @@ require("lazy").setup({
         'Telescope - Search Keymaps'
       },
       {
+        '<leader>sc',
+        function() require 'telescope.builtin'.colorscheme() end,
+        desc =
+        'Telescope - Search Color Schemes'
+      },
+      {
         "<leader>sp",
         function() vim.cmd.Telescope('workspaces') end,
         desc =
