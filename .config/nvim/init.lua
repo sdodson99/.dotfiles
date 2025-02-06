@@ -479,6 +479,18 @@ require("lazy").setup({
         },
       }
     end,
+    keys = {
+      { "<leader>ais", ':PrtStatus<CR>',           desc = 'AI - Status' },
+      { "<leader>apr", ':PrtProvider<CR>',         desc = 'AI - Pick Provider' },
+      { "<leader>apm", ':PrtModel<CR>',            desc = 'AI - Pick Model' },
+      { "<leader>act", ':PrtChatToggle popup<CR>', desc = 'AI - Toggle Chat Open' },
+      { "<leader>acr", ':PrtChatRespond<CR>',      desc = 'AI - Trigger Chat Response' },
+      { "<leader>acs", ':PrtStop<CR>',             desc = 'AI - Stop Chat Response' },
+      { "<leader>amr", ':PrtRewrite<CR>',          desc = 'AI - Rewrite Selection' },
+      { "<leader>ami", ':PrtImplement<CR>',        desc = 'AI - Implement Selection as Prompt' },
+      { "<leader>ama", ':PrtAppend<CR>',           desc = 'AI - Append Selection' },
+      { "<leader>amp", ':PrtPrepend<CR>',          desc = 'AI - Prepend Selection' },
+    },
   }
 })
 
