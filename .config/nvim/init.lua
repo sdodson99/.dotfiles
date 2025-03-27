@@ -468,29 +468,59 @@ require("lazy").setup({
     config = true
   },
   {
-    "frankroeder/parrot.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("parrot").setup {
-        providers = {
-          gemini = {
-            api_key = os.getenv "GEMINI_API_KEY"
-          }
-        },
-      }
-    end,
-    keys = {
-      { "<leader>ais", ':PrtStatus<CR>',           desc = 'AI - Status' },
-      { "<leader>apr", ':PrtProvider<CR>',         desc = 'AI - Pick Provider' },
-      { "<leader>apm", ':PrtModel<CR>',            desc = 'AI - Pick Model' },
-      { "<leader>act", ':PrtChatToggle popup<CR>', desc = 'AI - Toggle Chat Open' },
-      { "<leader>acr", ':PrtChatRespond<CR>',      desc = 'AI - Trigger Chat Response' },
-      { "<leader>acs", ':PrtStop<CR>',             desc = 'AI - Stop Chat Response' },
-      { "<leader>amr", ':PrtRewrite<CR>',          desc = 'AI - Rewrite Selection',             mode = 'v' },
-      { "<leader>ami", ':PrtImplement<CR>',        desc = 'AI - Implement Selection as Prompt', mode = 'v' },
-      { "<leader>ama", ':PrtAppend<CR>',           desc = 'AI - Append Selection' },
-      { "<leader>amp", ':PrtPrepend<CR>',          desc = 'AI - Prepend Selection' },
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
     },
+    config = function()
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = 'ollama',
+            tools = {
+              ["mcp"] = {
+                callback = function() return require("mcphub.extensions.codecompanion") end,
+                description = "Call tools and resources from the MCP Servers",
+                opts = {
+                  requires_approval = true,
+                }
+              }
+            }
+          }
+        }
+      })
+    end,
+  },
+  {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    cmd = "MCPHub",
+    build = "npm install -g mcp-hub@latest",
+    config = function()
+      require("mcphub").setup({
+        port = 3000,
+        config = vim.fn.expand("~/.config/nvim/mcp.json"),
+        log = {
+          level = vim.log.levels.WARN,
+          to_file = false,
+          file_path = nil,
+          prefix = "MCPHub"
+        },
+      })
+    end
+  },
+  {
+    "rest-nvim/rest.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      opts = function(_, opts)
+        opts.ensure_installed = opts.ensure_installed or {}
+        table.insert(opts.ensure_installed, "http")
+      end,
+    }
   }
 })
 
