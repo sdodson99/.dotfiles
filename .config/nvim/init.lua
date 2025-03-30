@@ -496,7 +496,14 @@ require("lazy").setup({
       "ravitemer/mcphub.nvim",
       "nvim-telescope/telescope.nvim",
       "hrsh7th/nvim-cmp",
-      "nvim-tree/nvim-web-devicons"
+      "nvim-tree/nvim-web-devicons",
+      {
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
     },
   },
   {
