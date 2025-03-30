@@ -186,7 +186,7 @@ require("lazy").setup({
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "typescript", 'tsx', "javascript", "html", "vim", "vimdoc", "lua", "json", "query" },
+        ensure_installed = { "typescript", 'tsx', "javascript", "html", "vim", "vimdoc", "lua", "json", "query", "http" },
         sync_install = false,
         highlight = {
           enable = true,
@@ -468,58 +468,56 @@ require("lazy").setup({
     config = true
   },
   {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    version = false,
+    opts = {
+      provider = "claude",
+      claude = {
+        endpoint = "https://api.anthropic.com",
+        model = "claude-3-5-sonnet-20241022",
+        timeout = 30000,
+        temperature = 0,
+        max_tokens = 4096
+      },
     },
-    config = function()
-      require("codecompanion").setup({
-        strategies = {
-          chat = {
-            adapter = 'ollama',
-            tools = {
-              ["mcp"] = {
-                callback = function() return require("mcphub.extensions.codecompanion") end,
-                description = "Call tools and resources from the MCP Servers",
-                opts = {
-                  requires_approval = true,
-                }
-              }
-            }
-          }
-        }
-      })
-    end,
+    build = "make",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "ravitemer/mcphub.nvim",
+      "nvim-telescope/telescope.nvim",
+      "hrsh7th/nvim-cmp",
+      "nvim-tree/nvim-web-devicons"
+    },
   },
   {
     "ravitemer/mcphub.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    cmd = "MCPHub",
     build = "npm install -g mcp-hub@latest",
     config = function()
       require("mcphub").setup({
-        port = 3000,
-        config = vim.fn.expand("~/.config/nvim/mcp.json"),
-        log = {
-          level = vim.log.levels.WARN,
-          to_file = false,
-          file_path = nil,
-          prefix = "MCPHub"
-        },
+        port = 1000,
+        config = vim.fn.expand("~/.config/nvim/mcp.json")
       })
-    end
+    end,
+    keys = {
+      {
+        "<leader>am",
+        ":MCPHub<CR>",
+        desc =
+        'AI - MCP Hub'
+      },
+    }
   },
   {
     "rest-nvim/rest.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      opts = function(_, opts)
-        opts.ensure_installed = opts.ensure_installed or {}
-        table.insert(opts.ensure_installed, "http")
-      end,
     }
   }
 })
