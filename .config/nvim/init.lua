@@ -480,6 +480,12 @@ require("lazy").setup({
         temperature = 0,
         max_tokens = 4096
       },
+      windows = {
+        width = 50,
+        ask = {
+          start_insert = false
+        }
+      }
     },
     build = "make",
     dependencies = {
