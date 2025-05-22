@@ -468,42 +468,22 @@ require("lazy").setup({
     config = true
   },
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    version = false,
+    "olimorris/codecompanion.nvim",
     opts = {
-      provider = "claude",
-      claude = {
-        endpoint = "https://api.anthropic.com",
-        model = "claude-3-5-sonnet-20241022",
-        timeout = 30000,
-        temperature = 0,
-        max_tokens = 4096
-      },
-      windows = {
-        width = 50,
-        ask = {
-          start_insert = false
-        }
-      }
-    },
-    build = "make",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "ravitemer/mcphub.nvim",
-      "nvim-telescope/telescope.nvim",
-      "hrsh7th/nvim-cmp",
-      "nvim-tree/nvim-web-devicons",
-      {
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
+      strategies = {
+        chat = {
+          adapter = "openai",
         },
-        ft = { "markdown", "Avante" },
+        inline = {
+          adapter = "openai",
+        },
       },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "ravitemer/mcphub.nvim",
+      "MeanderingProgrammer/render-markdown.nvim"
     },
   },
   {
@@ -526,6 +506,10 @@ require("lazy").setup({
         'AI - MCP Hub'
       },
     }
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown", "codecompanion" }
   },
   {
     "rest-nvim/rest.nvim",
