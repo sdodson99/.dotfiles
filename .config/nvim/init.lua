@@ -75,6 +75,13 @@ require("lazy").setup({
     'williamboman/mason.nvim',
     lazy = false,
     config = true,
+    version = "^1.0.0"
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    lazy = false,
+    config = true,
+    version = "^1.0.0"
   },
   {
     'hrsh7th/nvim-cmp',
