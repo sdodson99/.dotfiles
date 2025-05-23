@@ -405,6 +405,7 @@ require("lazy").setup({
 
       telescope.load_extension("workspaces")
       telescope.load_extension("file_browser")
+      telescope.load_extension("ui-select")
 
       telescope.setup({
         extensions = {
@@ -419,8 +420,10 @@ require("lazy").setup({
     end
   },
   {
-    "nvim-telescope/telescope-file-browser.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+    "nvim-telescope/telescope-file-browser.nvim"
+  },
+  {
+    'nvim-telescope/telescope-ui-select.nvim'
   },
   {
     "nvim-tree/nvim-web-devicons",
@@ -485,6 +488,29 @@ require("lazy").setup({
       "ravitemer/mcphub.nvim",
       "MeanderingProgrammer/render-markdown.nvim"
     },
+    keys = {
+      {
+        "<leader>al",
+        ":CodeCompanionActions<CR>",
+        desc =
+        'AI - Open Code Companion Action Palette',
+        mode = { "n", "v" }
+      },
+      {
+        "<leader>ak",
+        ":CodeCompanionChat Toggle<CR>",
+        desc =
+        'AI - Toggle Code Companion Chat',
+        mode = { "n", "v" }
+      },
+      {
+        "<leader>ad",
+        ":CodeCompanionChat Add<CR>",
+        desc =
+        'AI - Add Selection to Code Companion Chat',
+        mode = { "v" }
+      },
+    }
   },
   {
     "ravitemer/mcphub.nvim",
