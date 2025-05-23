@@ -472,6 +472,13 @@ require("lazy").setup({
   },
   {
     "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "ravitemer/mcphub.nvim",
+      "MeanderingProgrammer/render-markdown.nvim",
+      "zbirenbaum/copilot.lua"
+    },
     opts = {
       strategies = {
         chat = {
@@ -481,12 +488,6 @@ require("lazy").setup({
           adapter = "openai",
         },
       },
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "ravitemer/mcphub.nvim",
-      "MeanderingProgrammer/render-markdown.nvim"
     },
     keys = {
       {
@@ -501,6 +502,13 @@ require("lazy").setup({
         ":CodeCompanionChat Toggle<CR>",
         desc =
         'AI - Toggle Code Companion Chat',
+        mode = { "n", "v" }
+      },
+      {
+        "<leader>an",
+        ":CodeCompanion<CR>",
+        desc =
+        'AI - Prompt Code Companion Inline Assistant',
         mode = { "n", "v" }
       },
       {
@@ -530,6 +538,22 @@ require("lazy").setup({
         ":MCPHub<CR>",
         desc =
         'AI - MCP Hub'
+      },
+    }
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = true,
+    keys = {
+      {
+        "<leader>co",
+        function()
+          require("copilot.suggestion").toggle_auto_trigger()
+        end,
+        desc =
+        'AI - Copilot Toggle'
       },
     }
   },
