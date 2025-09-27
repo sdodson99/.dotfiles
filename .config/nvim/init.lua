@@ -18,186 +18,84 @@ vim.opt.undofile = true;
 
 local map = vim.keymap.set;
 
---- Movement
 map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
 
---- Merge Conflicts!
-map("n", "gh", "<cmd>diffget //2<CR>", { desc = 'Merge Conflicts - Take Left' })
-map("n", "gl", "<cmd>diffget //3<CR>", { desc = 'Merge Conflicts - Take Right' })
-map("n", "gH", "<C-w>h:Gwrite!<CR><C-w>l", { desc = 'Merge Conflicts - Take Left All' })
-map("n", "gL", "<C-w>l:Gwrite!<CR><C-w>h", { desc = 'Merge Conflicts - Take Right All' })
+-- Commands
+vim.api.nvim_create_user_command(
+  'AutoFormat',
+  function(opts)
+    vim.g.auto_format = opts.fargs[1];
+  end,
+  { nargs = 1 }
+)
 
---- Formatting
-map("n", "<leader>fp", function() vim.cmd.PrettierAsync() end, { desc = 'Format - Run Prettier' })
-map("n", "<leader>fd", function() vim.lsp.buf.format({ timeout_ms = 5000, async = true }) end,
-  { desc = 'Format - Run Default' })
-
---- Undotree
-map("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = 'Undotree - Toggle Open' })
-
---- LSP
-map('n', '<space>rn', vim.lsp.buf.rename, { desc = "LSP - Rename" })
-map({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = "LSP - Code Action" })
-
--- Lazy.nvim Setup
+-- Plugin Manager
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if not vim.loop.fs_stat(lazypath) then
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
+    "--branch=stable",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
     lazypath,
   })
 end
 
 vim.opt.rtp:prepend(lazypath)
 
--- Plugins!
+-- Plugins
 
 require("lazy").setup({
-  -- LSP Things That I Totally Understand
+  -- LSP
   {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
-    lazy = true,
-    config = false,
-    init = function()
-      vim.g.lsp_zero_extend_cmp = 0
-      vim.g.lsp_zero_extend_lspconfig = 0
-    end,
-  },
-  {
-    'williamboman/mason.nvim',
-    lazy = false,
-    config = true,
-    version = "^1.0.0"
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    lazy = false,
-    config = true,
-    version = "^1.0.0"
-  },
-  {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    "mason-org/mason-lspconfig.nvim",
     dependencies = {
-      'saadparwaiz1/cmp_luasnip',
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets"
+      "mason-org/mason.nvim",
+      "neovim/nvim-lspconfig",
     },
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
-
-      local lsp_zero = require('lsp-zero')
-
-      lsp_zero.extend_cmp()
-
-      local cmp = require('cmp')
-      local cmp_action = lsp_zero.cmp_action()
-
-      cmp.setup({
-        formatting = lsp_zero.cmp_format(),
-        mapping = cmp.mapping.preset.insert({
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-d>'] = cmp.mapping.scroll_docs(4),
-          ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-          ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-        }),
-        snippet = {
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-          end,
-        },
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' }
-        }, {
-          { name = 'buffer' },
-        })
-      })
-    end
-  },
-  {
-    'neovim/nvim-lspconfig',
-    cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
     event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'williamboman/mason-lspconfig.nvim' },
-    },
     config = function()
-      local lsp_zero = require('lsp-zero')
-
-      lsp_zero.extend_lspconfig()
-
-      lsp_zero.on_attach(function(_, bufnr)
-        lsp_zero.default_keymaps({ buffer = bufnr })
-      end)
-
-      require('mason-lspconfig').setup({
-        ensure_installed = {},
-        handlers = {
-          lsp_zero.default_setup,
-          lua_ls = function()
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require('lspconfig').lua_ls.setup(lua_opts)
-          end,
-        }
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          "ts_ls",
+          "html",
+          "eslint"
+        },
       })
-    end
-  },
 
-  -- Other Things That I Actually Understand
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      require('catppuccin').setup({
-        transparent_background = true
+      require("mason-lspconfig").setup_handlers({
+        function(server_name)
+          require("lspconfig")[server_name].setup({})
+        end,
       })
-    end
-  },
-  {
-    'rose-pine/neovim',
-    name = 'rose-pine',
-    priority = 1000,
-    config = function()
-      require('rose-pine').setup({
-        disable_background = true
-      })
-    end
-  },
-  {
-    'bluz71/nvim-linefly',
-    config = function()
-      vim.g.linefly_options = {
-        with_attached_clients = false,
-      }
     end
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
-    dependencies = {
-      { 'windwp/nvim-ts-autotag' }
-    },
     config = function()
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "typescript", 'tsx', "javascript", "html", "vim", "vimdoc", "lua", "json", "query", "http" },
-        sync_install = false,
+        ensure_installed = {
+          "vim",
+          "vimdoc",
+          "lua",
+          "html",
+          "javascript",
+          "json",
+          "typescript",
+          "tsx"
+        },
         highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false
+          enable = true
         },
         indent = {
           enable = true
@@ -207,11 +105,31 @@ require("lazy").setup({
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require 'treesitter-context'.setup {
         max_lines = 3,
       }
     end
+  },
+
+  -- Completion
+  {
+    'saghen/blink.cmp',
+    dependencies = { 'rafamadriz/friendly-snippets' },
+    version = '1.*',
+    event = 'InsertEnter',
+    opts = {
+      keymap = { preset = 'default' },
+      completion = {
+        documentation = {
+          auto_show = true
+        }
+      },
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      }
+    }
   },
   {
     'windwp/nvim-autopairs',
@@ -219,144 +137,80 @@ require("lazy").setup({
     opts = {}
   },
   {
-    'nvim-ts-autotag',
-    config = function()
-      require('nvim-ts-autotag').setup({
-        opts = {
-          enable_close = true,
-          enable_rename = true,
-          enable_close_on_slash = true
-        }
-      })
-    end
-  },
-  {
-    'mbbill/undotree'
-  },
-  {
-    'mfussenegger/nvim-dap',
-    keys = {
-      {
-        '<leader>dct',
-        function() require "dap".continue() end,
-        desc =
-        'DAP - Debugger Continue'
-      },
-      {
-        '<leader>dsv',
-        function() require "dap".step_over() end,
-        desc =
-        'DAP - Debugger Step Over'
-      },
-      {
-        '<leader>dsi',
-        function() require "dap".step_into() end,
-        desc =
-        'DAP - Debugger Step Into'
-      },
-      {
-        '<leader>dso',
-        function() require "dap".step_out() end,
-        desc =
-        'DAP - Debugger Step Out'
-      },
-      {
-        '<leader>dtb',
-        function() require('persistent-breakpoints.api').toggle_breakpoint() end,
-        desc =
-        'DAP - Debugger Toggle Breakpoint'
-      },
-    },
-    config = function()
-      require('dap').adapters.chrome = {
-        type = "executable",
-        command = "node",
-        args = { vim.fn.stdpath("data") .. "/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js" }
+    'windwp/nvim-ts-autotag',
+    event = "InsertEnter",
+    opts = {
+      opts = {
+        enable_close = true,
+        enable_rename = true,
+        enable_close_on_slash = true
       }
-    end
+    }
   },
   {
-    "rcarriga/nvim-dap-ui",
-    keys = {
-      { '<leader>dut', function() require "dapui".toggle() end, desc = 'DAP - Toggle UI' }
-    },
-    config = function()
-      require("dapui").setup({
-        expand_lines = false,
-        layouts = {
-          {
-            elements = {
-              {
-                id = "breakpoints",
-                size = 0.25
-              },
-              {
-                id = "scopes",
-                size = 0.75
-              },
-            },
-            position = "right",
-            size = 40
-          }
-        }
-      })
-    end
-  },
-  {
-    'Weissle/persistent-breakpoints.nvim',
-    config = function()
-      require('persistent-breakpoints').setup {
-        load_breakpoints_event = { "BufReadPost" }
-      }
-    end
-  },
-  {
-    'prettier/vim-prettier',
-    build = "yarn install --frozen-lockfile --production",
-    config = function()
-      vim.g['prettier#autoformat'] = 1;
-      vim.g['prettier#autoformat_require_pragma'] = 0;
-      vim.g['prettier#partial_format'] = 1;
+    'stevearc/conform.nvim',
+    event = { "BufWritePre" },
+    opts = {
+      formatters_by_ft = {
+        javascript = { "prettierd" },
+        typescript = { "prettierd" },
+        javascriptreact = { "prettierd" },
+        typescriptreact = { "prettierd" },
+        json = { "prettierd" },
+        css = { "prettierd" },
+        html = { "prettierd" }
+      },
+      default_format_opts = {
+        lsp_format = "fallback",
+      },
+      format_on_save = function()
+        if vim.g.auto_format == "0" then
+          return
+        end
 
-      vim.api.nvim_create_user_command(
-        'AutoFormat',
-        function(opts)
-          vim.g['prettier#autoformat'] = opts.fargs[1];
+        return { timeout_ms = 5000 }
+      end,
+    },
+    keys = {
+      {
+        "<leader>fp",
+        function()
+          require("conform").format({ formatters = { "prettierd" } })
         end,
-        { nargs = 1 }
-      )
-    end
-  },
-  {
-    "tpope/vim-fugitive",
-    cmd = {
-      'G',
-      'Git',
-      'Gread'
+        mode = { "n", "v" },
+        desc = "Format with prettierd",
+      },
+      {
+        "<leader>fd",
+        function()
+          require("conform").format()
+        end,
+        mode = { "n", "v" },
+        desc = "Format with default formatter",
+      },
+      {
+        "<leader>fi",
+        ":ConformInfo<CR>",
+        desc = "Show conform.nvim status",
+      },
     },
   },
   {
-    'pwntester/octo.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'nvim-tree/nvim-web-devicons',
-    },
-    cmd = {
-      'Octo'
-    },
-    config = function()
-      require("octo").setup({
-        suppress_missing_scope = {
-          projects_v2 = true,
-        }
-      })
-    end
+    'numToStr/Comment.nvim',
+    opts = {}
   },
+
+  -- Navigation
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.5',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    tag = '0.1.8',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-file-browser.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
+      "natecraddock/workspaces.nvim",
+      "nvim-tree/nvim-web-devicons"
+    },
     keys = {
       {
         '<leader>sf',
@@ -427,15 +281,6 @@ require("lazy").setup({
     end
   },
   {
-    "nvim-telescope/telescope-file-browser.nvim"
-  },
-  {
-    'nvim-telescope/telescope-ui-select.nvim'
-  },
-  {
-    "nvim-tree/nvim-web-devicons",
-  },
-  {
     'ThePrimeagen/harpoon',
     dependencies = {
       'nvim-lua/plenary.nvim'
@@ -450,138 +295,43 @@ require("lazy").setup({
       { "<leader>h5", function() require 'harpoon.ui'.nav_file(5) end,         desc = 'Harpoon - Open File 5' }
     },
   },
+
+  -- Source Control
   {
-    "natecraddock/workspaces.nvim",
+    "tpope/vim-fugitive",
+    cmd = {
+      'G',
+      'Git',
+      'Gread'
+    },
+  },
+  {
+    'mbbill/undotree',
+    keys = {
+      {
+        "<leader>ut",
+        ":UndotreeToggle<CR>",
+        desc =
+        'UndoTree - Toggle'
+      },
+    }
+  },
+
+  -- Appearance
+  {
+    'bluz71/nvim-linefly',
     config = function()
-      require("workspaces").setup()
+      vim.g.linefly_options = {
+        with_attached_clients = false,
+      }
     end
   },
   {
-    'numToStr/Comment.nvim',
-    opts = {},
-    lazy = false,
-  },
-  {
-    "iamcco/markdown-preview.nvim",
-    name = "markdown-preview",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    build = "cd app && yarn install",
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-    end,
-    ft = { "markdown" },
-  },
-  {
-    'barrett-ruth/live-server.nvim',
-    build = 'yarn global add live-server',
-    cmd = { "LiveServerStart" },
-    config = true
-  },
-  {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "ravitemer/mcphub.nvim",
-      "MeanderingProgrammer/render-markdown.nvim",
-      "zbirenbaum/copilot.lua"
-    },
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
     opts = {
-      strategies = {
-        chat = {
-          adapter = "openai",
-        },
-        inline = {
-          adapter = "openai",
-        },
-      },
-      extensions = {
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            show_result_in_chat = true, -- Show mcp tool results in chat
-            make_vars = true,       -- Convert resources to #variables
-            make_slash_commands = true, -- Add prompts as /slash commands
-          }
-        }
-      }
-    },
-    keys = {
-      {
-        "<leader>al",
-        ":CodeCompanionActions<CR>",
-        desc =
-        'AI - Open Code Companion Action Palette',
-        mode = { "n", "v" }
-      },
-      {
-        "<leader>ak",
-        ":CodeCompanionChat Toggle<CR>",
-        desc =
-        'AI - Toggle Code Companion Chat',
-        mode = { "n", "v" }
-      },
-      {
-        "<leader>an",
-        ":CodeCompanion<CR>",
-        desc =
-        'AI - Prompt Code Companion Inline Assistant',
-        mode = { "n", "v" }
-      },
-      {
-        "<leader>ad",
-        ":CodeCompanionChat Add<CR>",
-        desc =
-        'AI - Add Selection to Code Companion Chat',
-        mode = { "v" }
-      },
-    }
-  },
-  {
-    "ravitemer/mcphub.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    build = "npm install -g mcp-hub@latest",
-    config = function()
-      require("mcphub").setup({
-        port = 1000,
-        config = vim.fn.expand("~/.config/nvim/mcp.json")
-      })
-    end,
-    keys = {
-      {
-        "<leader>am",
-        ":MCPHub<CR>",
-        desc =
-        'AI - MCP Hub'
-      },
-    }
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = true,
-    keys = {
-      {
-        "<leader>co",
-        function()
-          require("copilot.suggestion").toggle_auto_trigger()
-        end,
-        desc =
-        'AI - Copilot Toggle'
-      },
-    }
-  },
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "codecompanion" }
-  },
-  {
-    "rest-nvim/rest.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
+      transparent_background = true
     }
   }
 })
