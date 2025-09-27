@@ -18,8 +18,16 @@ vim.opt.undofile = true;
 
 local map = vim.keymap.set;
 
+--- Movement
 map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
+
+--- LSP
+map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+map("n", "gr", vim.lsp.buf.references, { desc = "Show references" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
+map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+map("n", "K", vim.lsp.buf.hover, { desc = "Hover info" })
 
 -- Commands
 vim.api.nvim_create_user_command(
