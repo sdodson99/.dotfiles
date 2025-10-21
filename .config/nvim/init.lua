@@ -62,12 +62,11 @@ require("lazy").setup({
   {
     "mason-org/mason-lspconfig.nvim",
     dependencies = {
-      "mason-org/mason.nvim",
+      { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig",
     },
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
@@ -75,12 +74,7 @@ require("lazy").setup({
           "html",
           "eslint"
         },
-      })
-
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          require("lspconfig")[server_name].setup({})
-        end,
+        automatic_enable = true
       })
     end
   },
@@ -89,7 +83,7 @@ require("lazy").setup({
     event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
     config = function()
-      local configs = require("nvim-treesitter.configs")
+      local configs = require("nvim-treesitter")
 
       configs.setup({
         ensure_installed = {
@@ -133,6 +127,9 @@ require("lazy").setup({
         documentation = {
           auto_show = true
         }
+      },
+      fuzzy = {
+        implementation = "lua"
       },
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
@@ -211,7 +208,7 @@ require("lazy").setup({
   -- Navigation
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
+    version = '*',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-file-browser.nvim',
@@ -277,6 +274,9 @@ require("lazy").setup({
       telescope.load_extension("ui-select")
 
       telescope.setup({
+        defaults = {
+          path_display = { "filename_first" }
+        },
         extensions = {
           workspaces = {
             keep_insert = true,
@@ -287,6 +287,11 @@ require("lazy").setup({
         }
       })
     end
+  },
+  {
+      "natecraddock/workspaces.nvim",
+      lazy = false,
+      opts = {}
   },
   {
     'ThePrimeagen/harpoon',
